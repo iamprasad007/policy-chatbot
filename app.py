@@ -13,13 +13,6 @@ def home():
     return {"status": "Policy Chatbot running"}
 
 
-# @app.post("/chatbot")
-# async def chatbot(req: ChatRequest):
-#     print("User message:", req.text)
-#     answer = generate_answer(req.text)
-#     print("Answer:", answer)
-#     return {"response": answer}
-
 @app.post("/chatbot")
 async def chatbot(request: Request):
     print("REQUEST RECEIVED")

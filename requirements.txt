@@ -3,4 +3,12 @@ uvicorn
 requests
 python-docx
 chromadb
+docx2txt
+langchain
+langchain-ibm
+langchain-community
+langchain-text-splitters
+langchain-core
+langchain-chroma
+langchain-huggingface
 sentence-transformers
