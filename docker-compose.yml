@@ -1,0 +1,18 @@
+services:
+
+  fastapi:
+    build: .
+    container_name: policy-chatbot
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    restart: unless-stopped
+
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: chatbot-tunnel
+    command: tunnel --no-autoupdate --no-tls-verify --url http://fastapi:5000
+    depends_on:
+      - fastapi
+    restart: unless-stopped

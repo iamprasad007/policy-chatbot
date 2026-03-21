@@ -1,0 +1,56 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Policy Chatbot API",
+    "description": "Backend API for the chatbot",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "YOUR_BACKEND_URL"
+    }
+  ],
+  "paths": {
+    "/chatbot": {
+      "post": {
+        "summary": "Send user message to RAG",
+        "operationId": "askChatbot",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["text"],
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "description": "The user's question"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Chatbot response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "type": "string",
+                      "description": "The answer from watsonx"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
