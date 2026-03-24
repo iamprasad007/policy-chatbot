@@ -1,0 +1,20 @@
+# ChromaDB persistent store — do not commit
+chroma_db/
+
+# Environment variables — never commit secrets
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.py[cod]
+
+# Docker
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

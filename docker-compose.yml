@@ -7,6 +7,9 @@ services:
       - "5000:5000"
     env_file:
       - .env
+    volumes:
+      - ./policies_docx:/app/policies_docx  # policy documents
+      - ./chroma_db:/app/chroma_db          # persistent vector store
     restart: unless-stopped
 
   tunnel:
