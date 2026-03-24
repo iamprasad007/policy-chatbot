@@ -1,9 +1,9 @@
-from langchain_ibm import WatsonxLLM
+from langchain_ibm import ChatWatsonx
 from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.document_loaders import Docx2txtLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_core.prompts import PromptTemplate
+from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 import os
@@ -29,26 +29,25 @@ vectorstore = Chroma.from_documents(chunks, embeddings)
 retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
 
 # ── 4. LLM ────────────────────────────────────────────────────────────────────
-llm = WatsonxLLM(
+llm = ChatWatsonx(
     model_id="meta-llama/llama-3-3-70b-instruct",
     url=f"https://{os.environ['IBM_REGION']}.ml.cloud.ibm.com",
     apikey=os.environ["IBM_API_KEY"],
     project_id=os.environ["PROJECT_ID"],
-    params={"max_new_tokens": 500, "temperature": 0.0}
+    params={"max_new_tokens": 150, "temperature": 0.0}
 )
 
 # ── 5. Prompt ─────────────────────────────────────────────────────────────────
-prompt = PromptTemplate.from_template("""
-You are a helpful HR assistant.
-Use ONLY the context below to answer the question.
-Give a direct, concise answer based strictly on the context.
-
-Context:
+prompt = ChatPromptTemplate.from_messages([
+    ("system", """You are a helpful HR assistant.
+Answer using ONLY the context provided.
+Be direct and concise — maximum 3 sentences.
+Do not explain your reasoning or rewrite your answer."""),
+    ("human", """Context:
 {context}
 
-Question: {question}
-
-Answer:""")
+Question: {question}""")
+])
 
 # ── 6. RAG chain (modern LCEL style) ─────────────────────────────────────────
 def format_docs(docs):
