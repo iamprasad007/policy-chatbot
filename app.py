@@ -10,7 +10,7 @@ class ChatRequest(BaseModel):
 
 @app.get("/")
 def home():
-    return {"status": "Policy Chatbot running"}
+    return {"status": "Chatbot running fine"}
 
 
 @app.post("/chatbot")
