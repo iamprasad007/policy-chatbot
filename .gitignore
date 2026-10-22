@@ -1,6 +1,9 @@
 # ChromaDB persistent store — do not commit
 chroma_db/
 
+# Per-project uploads + vector stores
+storage/
+
 # Environment variables — never commit secrets
 .env
 
@@ -11,6 +14,12 @@ __pycache__/
 *.pyd
 .Python
 *.py[cod]
+.venv/
+
+# Node / frontend & widget builds
+node_modules/
+dist/
+*.tsbuildinfo
 
 # Docker
 *.log

@@ -1,0 +1,39 @@
+fastapi
+uvicorn
+python-multipart
+requests
+pydantic-settings
+email-validator
+
+# Database / auth
+sqlalchemy
+alembic
+psycopg2-binary
+python-jose[cryptography]
+passlib[bcrypt]
+bcrypt==4.0.1  # passlib 1.7.4's version probing breaks on bcrypt>=4.1
+cryptography
+
+# Document ingestion
+python-docx
+docx2txt
+pypdf
+pdf2image
+pytesseract
+pillow
+pyyaml
+
+# RAG / vector store
+chromadb
+langchain
+langchain-community
+langchain-text-splitters
+langchain-core
+langchain-chroma
+langchain-huggingface
+sentence-transformers
+
+# LLM providers ("any LLM API key")
+langchain-ibm
+langchain-openai
+langchain-anthropic

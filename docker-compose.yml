@@ -1,21 +1,40 @@
 services:
 
-  fastapi:
-    build: .
+  db:
+    image: postgres:16
+    container_name: chatbot-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: chatbot_builder
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
     container_name: policy-chatbot
     ports:
       - "5000:5000"
     env_file:
       - .env
+    environment:
+      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/chatbot_builder
     volumes:
-      - ./policies_docx:/app/policies_docx  # policy documents
-      - ./chroma_db:/app/chroma_db          # persistent vector store
+      - ./storage:/app/storage  # per-project uploads + chroma vector stores
+    depends_on:
+      - db
     restart: unless-stopped
 
   tunnel:
     image: cloudflare/cloudflared:latest
     container_name: chatbot-tunnel
-    command: tunnel --no-autoupdate --no-tls-verify --url http://fastapi:5000
+    command: tunnel --no-autoupdate --no-tls-verify --url http://backend:5000
     depends_on:
-      - fastapi
+      - backend
     restart: unless-stopped
+
+volumes:
+  pgdata:
